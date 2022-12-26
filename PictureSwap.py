@@ -1,5 +1,7 @@
 import os
-
+import shutil
+from alive_progress import alive_bar
+import time
 
 class PictureFolder:
 
@@ -15,9 +17,11 @@ class PictureFolder:
         return [file for file in os.listdir(self.folder_path) if file.endswith('.jpg')]
 
 
-class PersonalPicture:
+class PersonalPicture(PictureFolder):
 
-    def __init__(self, picture_path, names_of_hr_pictures):
+    def __init__(self, picture_path, names_of_hr_pictures, folder_path):
+
+        super().__init__(folder_path)
 
         def string_check(string):
             if isinstance(string, list):
@@ -38,13 +42,19 @@ class PersonalPicture:
         self.picture_path = picture_path
         self.names_of_hr_picture = names_of_hr_pictures
 
+    def swap_picture(self):
+        with alive_bar(len(self.names_of_hr_picture)) as bar:
+            for element in self.names_of_hr_picture:
+                element_path = self.folder_path + '\\' + element
+                os.remove(element_path)
+                shutil.copy(self.picture_path, element_path)
+                time.sleep(0.001)
+                bar()
 
 
-
-Path = 'C:\\Users\\Public\\Pictures'
-PicturePath = 'C:\\Users\\sramekf\\Desktop\\FotkyZaloha\\IMG_20170810_211241.jpg'
+Path = r'C:\Users\Public\Pictures'
+PicturePath = r'C:\Users\sramekf\Downloads\1524426905660-de-html-1.0.jpg'
 
 folder_object = PictureFolder(Path)
-personal_picture_object = PersonalPicture(PicturePath,folder_object.get_all_files())
-#personal_picture_object = PersonalPicture(PicturePath,['tesxt',1])
-print(folder_object.get_all_files())
+personal_picture_object = PersonalPicture(PicturePath,folder_object.get_all_files(), Path)
+personal_picture_object.swap_picture()
