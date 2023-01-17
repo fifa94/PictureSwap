@@ -3,6 +3,7 @@ import shutil
 from alive_progress import alive_bar
 import time
 
+
 class PictureFolder:
 
     def __init__(self, folder_path):
@@ -52,9 +53,11 @@ class PersonalPicture(PictureFolder):
                 bar()
 
 
-Path = r'C:\Users\Public\Pictures'
-PicturePath = r'C:\Users\sramekf\Downloads\1524426905660-de-html-1.0.jpg'
+if __name__ == "__main__":
 
-folder_object = PictureFolder(Path)
-personal_picture_object = PersonalPicture(PicturePath,folder_object.get_all_files(), Path)
-personal_picture_object.swap_picture()
+    Path = r'C:\Users\Public\Pictures'
+    PicturePath = r'C:\Users\sramekf\Downloads\index.jpg'
+
+    folder_object = PictureFolder(Path)
+    personal_picture_object = PersonalPicture(PicturePath, folder_object.get_all_files(), Path)
+    personal_picture_object.swap_picture()
